@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using webAPI.Data;
 using webAPI.Models;
 
@@ -11,6 +12,16 @@ namespace webAPI.Repository
         {
             _uContext = uContext;
         }
+        public async Task<Usuario> BuscaUsuario(int id)
+        {
+            return await _uContext.Usuarios.Where(usuario => usuario.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Usuario>> BuscaUsuarios()
+        {
+            return await _uContext.Usuarios.OrderBy(u => u.Nome).ToListAsync();
+        }
+
         public void AdicionaUsuario(Usuario usuario)
         {
             _uContext.Add(usuario);
@@ -18,22 +29,17 @@ namespace webAPI.Repository
 
         public void AtualizaUsuario(Usuario usuario)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Usuario>> BuscaUsuario(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Usuario>> BuscaUsuarios()
-        {
-            throw new NotImplementedException();
+            _uContext.Update(usuario);
         }
 
         public void DeletaUsuario(Usuario usuario)
         {
-            throw new NotImplementedException();
+            _uContext.Remove(usuario);
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            return await _uContext.SaveChangesAsync() > 0;
         }
     }
 }

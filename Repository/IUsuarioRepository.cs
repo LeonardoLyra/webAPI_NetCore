@@ -6,12 +6,13 @@ namespace webAPI.Repository
     {
         Task<IEnumerable<Usuario>> BuscaUsuarios();
 
-        Task<IEnumerable<Usuario>> BuscaUsuario(int id);
+        Task<Usuario> BuscaUsuario(int id);
 
         void AdicionaUsuario(Usuario usuario);
 
         void AtualizaUsuario(Usuario usuario);
 
         void DeletaUsuario(Usuario usuario);
+        Task<bool> SaveAsync();
     }
 }
